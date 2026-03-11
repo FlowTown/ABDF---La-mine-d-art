@@ -6,9 +6,9 @@
   <title>La Mine d'Art</title>
   <style>
     :root {
-      --bg: #f5f7fb;
-      --bg-soft: #eef2f7;
-      --surface: rgba(255,255,255,0.88);
+      --bg: #f6f7fb;
+      --bg-2: #eef2f7;
+      --surface: rgba(255,255,255,0.86);
       --surface-strong: #ffffff;
       --surface-soft: #f8fafc;
       --text: #0f172a;
@@ -18,14 +18,16 @@
       --accent-contrast: #ffffff;
       --pill: #edf2f7;
       --shadow: 0 18px 45px rgba(15, 23, 42, 0.08);
-      --radius-xl: 30px;
-      --radius-lg: 22px;
-      --radius-md: 16px;
       --content: 1280px;
     }
 
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
 
     body {
       margin: 0;
@@ -39,7 +41,7 @@
 
     body.dark {
       --bg: #0b1220;
-      --bg-soft: #111827;
+      --bg-2: #111827;
       --surface: rgba(17, 24, 39, 0.88);
       --surface-strong: #182234;
       --surface-soft: #101827;
@@ -55,18 +57,39 @@
         linear-gradient(180deg, #09111d 0%, #0b1220 100%);
     }
 
-    a { color: inherit; text-decoration: none; }
-    button, input, textarea { font: inherit; }
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input,
+    textarea {
+      font: inherit;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
 
     .site-header {
-      padding-top: 6px;
-      padding-bottom: 6px;
       position: sticky;
       top: 0;
       z-index: 100;
+      padding: 6px 0;
       backdrop-filter: blur(16px);
-      background: color-mix(in srgb, var(--bg) 78%, transparent);
+      background: rgba(246, 247, 251, 0.78);
       border-bottom: 1px solid var(--line);
+      transition: padding 0.25s ease, background 0.25s ease;
+    }
+
+    body.dark .site-header {
+      background: rgba(11, 18, 32, 0.78);
+    }
+
+    .site-header.scrolled {
+      padding: 0;
     }
 
     .header-inner {
@@ -85,14 +108,14 @@
     }
 
     .header-left,
+    .header-actions,
     .brand {
+      display: flex;
       align-items: center;
     }
 
-    .header-left {
+    .header-left,
     .header-actions {
-      display: flex;
-      align-items: center;
       gap: 12px;
     }
 
@@ -139,17 +162,11 @@
       border-color: rgba(255,255,255,0.08);
     }
 
-    body.dark .slider::before {
-      background: #f8fafc;
-    }
-
     .theme-switch input:checked + .slider::before {
       transform: translateX(26px);
     }
 
     .brand {
-      display: inline-flex;
-      align-items: center;
       gap: 16px;
       font-weight: 800;
       letter-spacing: -0.03em;
@@ -166,9 +183,8 @@
       display: grid;
       place-items: center;
       overflow: hidden;
-      background: transparent;
-      border: 0;
-      transition: transform 0.25s ease;
+      flex: 0 0 auto;
+      transition: width 0.25s ease, height 0.25s ease;
     }
 
     .site-header.scrolled .brand-mark {
@@ -184,29 +200,13 @@
     }
 
     body.dark .brand-mark img {
-      filter: drop-shadow(0 18px 36px rgba(0,0,0,0.45));
-    }
-
-    .site-header.scrolled .brand-mark {
-      width: 48px;
-      height: 48px;
-    }
-
-    .brand-mark img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      filter: drop-shadow(0 10px 18px rgba(15, 23, 42, 0.10));
-    }
-
-    body.dark .brand-mark img {
-      filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.30));
+      filter: drop-shadow(0 18px 36px rgba(0, 0, 0, 0.45));
     }
 
     .brand-text {
       display: flex;
       flex-direction: column;
-      gap: 2px;
+      gap: 4px;
     }
 
     .brand-text strong {
@@ -222,15 +222,14 @@
       font-weight: 700;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      margin-top: 4px;
     }
 
     .top-link {
       padding: 12px 15px;
       border-radius: 999px;
       color: var(--muted);
-      transition: 0.2s ease;
       font-weight: 600;
+      transition: 0.2s ease;
     }
 
     .top-link:hover {
@@ -249,7 +248,7 @@
       width: 48px;
       height: 48px;
       border-radius: 16px;
-      background: color-mix(in srgb, var(--surface-strong) 88%, transparent);
+      background: rgba(255,255,255,0.8);
       border: 1px solid var(--line);
       box-shadow: var(--shadow);
       display: inline-grid;
@@ -257,6 +256,10 @@
       font-size: 18px;
       color: var(--text);
       transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    body.dark .menu-button {
+      background: rgba(24, 34, 52, 0.9);
     }
 
     .menu-button:hover {
@@ -277,7 +280,7 @@
       padding: 16px;
       border: 1px solid var(--line);
       border-radius: 26px;
-      background: color-mix(in srgb, var(--surface-strong) 92%, transparent);
+      background: rgba(255,255,255,0.94);
       backdrop-filter: blur(18px);
       box-shadow: var(--shadow);
       transform: translateX(calc(100% + 24px));
@@ -285,6 +288,10 @@
       pointer-events: none;
       transition: transform 0.28s ease, opacity 0.28s ease;
       z-index: 90;
+    }
+
+    body.dark .side-menu {
+      background: rgba(16, 24, 39, 0.94);
     }
 
     .side-menu.open {
@@ -325,7 +332,9 @@
       cursor: pointer;
     }
 
-    .menu-main { font-weight: 700; }
+    .menu-main {
+      font-weight: 700;
+    }
 
     .submenu {
       display: none;
@@ -333,7 +342,9 @@
       background: var(--surface-soft);
     }
 
-    .menu-group.open .submenu { display: block; }
+    .menu-group.open .submenu {
+      display: block;
+    }
 
     .submenu a {
       color: var(--muted);
@@ -379,17 +390,26 @@
       border: 1px solid var(--line);
     }
 
-    .page { padding: 24px 0 64px; }
-    .section { padding: 72px 0; }
+    .page {
+      padding: 24px 0 64px;
+    }
+
+    .section {
+      padding: 72px 0;
+    }
 
     .shell {
       border: 1px solid rgba(255,255,255,0.45);
-      background: color-mix(in srgb, var(--surface) 92%, transparent);
+      background: rgba(255,255,255,0.86);
       box-shadow: var(--shadow);
       border-radius: 36px;
       padding: 34px;
       position: relative;
       overflow: hidden;
+    }
+
+    body.dark .shell {
+      background: rgba(17, 24, 39, 0.88);
     }
 
     .shell::before {
@@ -417,6 +437,11 @@
       align-items: center;
     }
 
+    .hero-copy {
+      position: relative;
+      z-index: 1;
+    }
+
     .eyebrow {
       display: inline-flex;
       align-items: center;
@@ -433,7 +458,12 @@
       text-transform: uppercase;
     }
 
-    h1, h2, h3, p { margin: 0; }
+    h1,
+    h2,
+    h3,
+    p {
+      margin: 0;
+    }
 
     h1 {
       margin-top: 18px;
@@ -448,11 +478,6 @@
       font-size: 18px;
       line-height: 1.7;
       color: var(--muted);
-    }
-
-    .hero-copy {
-      position: relative;
-      z-index: 1;
     }
 
     .hero-actions {
@@ -476,11 +501,6 @@
       transition: transform 0.35s ease, box-shadow 0.35s ease;
     }
 
-    .hero-visual:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 34px 80px rgba(15, 23, 42, 0.14);
-    }
-
     body.dark .hero-visual {
       background:
         linear-gradient(135deg, rgba(0,0,0,0.12), rgba(0,0,0,0.34)),
@@ -488,17 +508,26 @@
       box-shadow: 0 28px 70px rgba(0, 0, 0, 0.28);
     }
 
+    .hero-visual:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 34px 80px rgba(15, 23, 42, 0.14);
+    }
+
     .floating-card {
       position: absolute;
       left: 22px;
-      bottom: 22px;
       right: 22px;
+      bottom: 22px;
       padding: 22px;
       border-radius: 24px;
-      background: color-mix(in srgb, var(--surface-strong) 82%, transparent);
+      background: rgba(255,255,255,0.82);
       backdrop-filter: blur(14px);
       border: 1px solid var(--line);
       box-shadow: 0 18px 40px rgba(15, 23, 42, 0.10);
+    }
+
+    body.dark .floating-card {
+      background: rgba(16, 24, 39, 0.82);
     }
 
     .floating-card strong {
@@ -542,9 +571,14 @@
     }
 
     .grid-3,
-    .catalog-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .catalog-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
     .grid-2,
-    .contact-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .contact-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
 
     .card,
     .product-card,
@@ -634,7 +668,6 @@
     .product-card img {
       width: 100%;
       height: 260px;
-      display: block;
       object-fit: cover;
       transition: transform 0.45s ease;
     }
@@ -643,7 +676,9 @@
       transform: scale(1.03);
     }
 
-    .product-body { padding: 20px; }
+    .product-body {
+      padding: 20px;
+    }
 
     .product-top {
       display: flex;
@@ -680,7 +715,8 @@
       margin-top: 14px;
     }
 
-    input, textarea {
+    input,
+    textarea {
       width: 100%;
       padding: 15px 16px;
       border-radius: 16px;
@@ -695,7 +731,8 @@
       color: var(--muted);
     }
 
-    input:focus, textarea:focus {
+    input:focus,
+    textarea:focus {
       border-color: rgba(100, 116, 139, 0.35);
       box-shadow: 0 0 0 4px rgba(100, 116, 139, 0.08);
     }
@@ -734,9 +771,17 @@
         flex-direction: column;
       }
 
-      .hero { min-height: auto; }
-      .hero-visual { min-height: 380px; }
-      .header-actions .top-link { display: none; }
+      .hero {
+        min-height: auto;
+      }
+
+      .hero-visual {
+        min-height: 380px;
+      }
+
+      .header-actions .top-link {
+        display: none;
+      }
     }
 
     @media (max-width: 720px) {
@@ -745,12 +790,40 @@
         width: min(calc(100% - 20px), var(--content));
       }
 
-      .page { padding-top: 16px; }
-      .section { padding: 54px 0; }
-      .shell { padding: 20px; border-radius: 26px; }
-      h1 { font-size: clamp(38px, 12vw, 58px); }
-      .brand-mark { width: 48px; height: 48px; }
-      .brand-text span { display: none; }
+      .page {
+        padding-top: 16px;
+      }
+
+      .section {
+        padding: 54px 0;
+      }
+
+      .shell {
+        padding: 20px;
+        border-radius: 26px;
+      }
+
+      h1 {
+        font-size: clamp(38px, 12vw, 58px);
+      }
+
+      .brand-mark {
+        width: 56px;
+        height: 56px;
+      }
+
+      .site-header.scrolled .brand-mark {
+        width: 52px;
+        height: 52px;
+      }
+
+      .brand-text strong {
+        font-size: 22px;
+      }
+
+      .brand-text span {
+        display: none;
+      }
     }
   </style>
 </head>
